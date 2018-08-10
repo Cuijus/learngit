@@ -5,10 +5,10 @@ from urllib import request
 import urllib
 import os
 import ssl
-#抓取网页图片
+#Catch the webpage images
 
 
-#根据给定的网址来获取网页详细信息，得到的html就是网页的源代码
+#According to the given web address to get the details of the web page, get the html is the source code of the web page.
 def getHtml(url):
     #Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
     #Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0
@@ -20,24 +20,24 @@ def getHtml(url):
     html = page.read() #.decode("utf-8")
     return html
 
-#创建保存图片的文件夹
+#Create folder to save pictures
 def mkdir(path):
     path = path.strip()
-    # 判断路径是否存在
-    # 存在    True
-    # 不存在  Flase
+    # Check whether the path exists
+    # exist    True
+    # not exist  Flase
     isExists = os.path.exists(path)
     if not isExists:
         print(u'New folder',path,u'created')
-        # 创建目录操作函数
+        # Create directory operation function
         os.makedirs(path)
         return True
     else:
-        # 如果目录存在则不创建，并提示目录已经存在
+        # If the directory exists, show the info:the directory already exists
         print(u'Named',path,u'a folder was existed')
         return False
 
-# 输入文件名，保存多张图片
+# Input the file name and save the images
 def saveUrl(imglist,name):
     for imageURL in imglist:
         imageURL = "https://www.baidu.com" + imageURL
@@ -51,7 +51,7 @@ def saveUrl(imglist,name):
         except urllib.error.URLError as e:
             print (e.reason)
 
-# 输入文件名，保存多张图片
+# Input the file name and save the images
 def saveImages(imglist,name):
     number = 1
     for imageURL in imglist:
@@ -97,33 +97,34 @@ def saveImages(imglist,name):
                 print(e.reason)
             number += 1
 
-#获取网页中所有图片的地址
+#Get the address of all the pictures in the web page
 def getAllImg(html):
-    #利用正则表达式把源代码中的图片地址过滤出来
+    #Filter out the picture address in the source code using regular expressions
     reg = r'data-src="(.+?\.jpg)"'
     #reg = r'id=\"imageName\" value="(.+?\.jpg)"'
     imgre = re.compile(reg)
     #print(reg)
     #print(imgre)
-    imglist = imgre.findall(str(html)) #表示在整个网页中过滤出所有图片的地址，放在imglist中
+    #Indicates that the address of all pictures is filtered in the entire web page and placed in imglist.
+    imglist = imgre.findall(str(html))
     #print(imglist)
     return imglist
 
 
-#创建本地保存文件夹，并下载保存图片
+#Create local save folder and download and save pictures.
 #ssl._create_default_https_context = ssl._create_unverified_context
 if __name__ == '__main__':
     ssl._create_default_https_context = ssl._create_unverified_context
     path = u'Images'
-    #创建本地文件夹
+    #Create local folder
     mkdir(path)
     n = 1
     for line in open("aa.txt"):
-        #获取该网址网页详细信息，得到的html就是网页的源代码
+        #Get the web page details, and the html is the source code of the web page
         html = getHtml(line + "/"+str(n))
-        #获取图片的地址列表
+        #Get the address list of the images
         imglist = getAllImg(html.decode('utf-8'))
-        #保存图片地址
+        #Save the image address
         saveUrl(imglist,path)
-        #保存图片
+        #Save images
         saveImages(imglist,path)
