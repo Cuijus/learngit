@@ -16,8 +16,7 @@ def getHtml(url):
     headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'}
     page1=urllib.request.Request(url,headers=headers)
     page=urllib.request.urlopen(page1)
-    #page = request.urlopen(url)
-    html = page.read() #.decode("utf-8")
+    html = page.read()
     return html
 
 #Create folder to save pictures
@@ -42,7 +41,6 @@ def saveUrl(imglist,name):
     for imageURL in imglist:
         imageURL = "https://www.baidu.com" + imageURL
         imageURL = imageURL.replace('th/', 'fm/')
-        #print(imageURL)
         print
         try:
             f = open('thefile.txt','a')
@@ -70,16 +68,14 @@ def saveImages(imglist,name):
                     ('Accept-Encoding','gzip,deflate,sdch'),
                     ('Accept-Language', 'zh-CN,zh;q=0.8'),
                     ('If-None-Match', '90101f995236651aa74454922de2ad74'),
-                    ('Referer','http://image.baidu.com/i?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&word=%E4%BA%A4%E9%80%9A&ie=utf-8'),
+                    ('Referer','http://image.baidu.com'),
                     ('If-Modified-Since', 'Thu, 01 Jan 1970 00:00:00 GMT')]
-        
         picNamelist = imageURL.split("/")
         if picNamelist[-1].startswith("Issue") == True:
             picName = picNamelist[-2] + "_" + picNamelist[-1]
         else:
             picName = picNamelist[-1]
-        #PicName2 = picNamelist[-2]
-        fileName = name + "/" + picName +"00" + str(number) + ".jpg" #+ fTail
+        fileName = name + "/" + picName +"A0" + str(number) + ".jpg" #+ fTail
         if os.path.exists(fileName):
             number += 1
         else:
